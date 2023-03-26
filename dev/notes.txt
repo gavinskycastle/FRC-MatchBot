@@ -1,0 +1,45 @@
+'''
+/teaminfo <team>: Display basic information about a team
+/teamstats <team>: Display ranking of a team and other skill-based stats for this season
+
+/eventinfo <event>: Display basic information about an event
+/eventstats <event>: Display qualification rankings and alliances
+
+/nextmatch <team or event>: Displays the next match the team will play in or the next match in the event
+/recentmatch <team or event>: Displays the last played match for the team or in the event, as well as the match video if posted
+
+COMPLETED /allmatches <team or event>: Displays all matches played by a team or in an event
+
+/sub <team or event>: Will automatically display the next match for a team or event 15 minutes before the scheduled match time until /unsub is called
+/unsub <team or event>: Reverses the effect of the command /sub
+'''
+
+# @bot.tree.command(name="teaminfo")
+# @app_commands.describe(team = "Display basic information about a team")
+# async def team_info(interaction: discord.Interaction, team: int):
+#     await interaction.response.send_message("Testing")
+
+# @bot.tree.command(name="teamstats")
+# @app_commands.describe(team = "Display ranking of a team and other skill-based stats for this season")
+# async def team_stats(interaction: discord.Interaction, team: int):
+#     await interaction.response.send_message("Testing")
+
+# @bot.tree.command(name="eventinfo")
+# @app_commands.describe(event = "Display basic information about an event")
+# async def event_info(interaction: discord.Interaction, event: str):
+#     await interaction.response.send_message("Testing")
+
+# @bot.tree.command(name="eventstats")
+# @app_commands.describe(event = "Display qualification rankings and alliances")
+# async def event_stats(interaction: discord.Interaction, event: str):
+#     await interaction.response.send_message("Testing")
+
+# @bot.tree.command(name="sub")
+# @app_commands.describe(type = "Will automatically display the next match for a team or event 15 minutes before the scheduled match time until /unsub is called", id = "The team/event number or id")
+# async def sub(interaction: discord.Interaction, type: str, id: str):
+#     await interaction.response.send_message("Testing")
+
+# @bot.tree.command(name="unsub")
+# @app_commands.describe(type = "Reverses the effect of the command /sub", id = "The team/event number or id")
+# async def unsub(interaction: discord.Interaction, type: str, id: str):
+#     await interaction.response.send_message("Testing")
