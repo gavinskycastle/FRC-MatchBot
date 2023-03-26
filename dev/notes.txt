@@ -5,8 +5,8 @@
 /eventinfo <event>: Display basic information about an event
 /eventstats <event>: Display qualification rankings and alliances
 
-/nextmatch <team or event>: Displays the next match the team will play in or the next match in the event
-/recentmatch <team or event>: Displays the last played match for the team or in the event, as well as the match video if posted
+COMPLETED /nextmatch <team or event>: Displays the next match the team will play in or the next match in the event
+COMPLETED /recentmatch <team or event>: Displays the last played match for the team or in the event, as well as the match video if posted
 
 COMPLETED /allmatches <team or event>: Displays all matches played by a team or in an event
 

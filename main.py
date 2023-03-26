@@ -59,8 +59,7 @@ async def next_match(interaction: discord.Interaction, type: str, id: str):
             header = header + "the " + format_event_header(id) + ":**"
         print_out = split_string_under_2000(get_match_table(get_next_match(matches)))
         await bot.get_channel(CHANNEL_ID).send(header)
-        for out in print_out:
-            await bot.get_channel(CHANNEL_ID).send(code_block(out))
+        await bot.get_channel(CHANNEL_ID).send(code_block(print_out[0]))
 
 @bot.tree.command(name="recentmatch")
 @app_commands.describe(type = "Displays the last played match for the team or in the event, as well as the match video if posted", id = "The team/event number or id")
@@ -80,8 +79,8 @@ async def recent_match(interaction: discord.Interaction, type: str, id: str):
             header = header + "the " + format_event_header(id) + ":**"
         print_out = split_string_under_2000(get_match_table(get_most_recent_match(matches)))
         await bot.get_channel(CHANNEL_ID).send(header)
-        for out in print_out:
-            await bot.get_channel(CHANNEL_ID).send(code_block(out))
+        await bot.get_channel(CHANNEL_ID).send(code_block(print_out[0]))
+        await bot.get_channel(CHANNEL_ID).send(get_match_video(get_most_recent_match(matches)))
 
 @bot.tree.command(name="allmatches")
 @app_commands.describe(type = "Displays all matches played by a team or in an event", id = "The team/event number or id")

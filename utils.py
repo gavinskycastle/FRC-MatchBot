@@ -104,3 +104,9 @@ def format_team_header(team: int):
 def format_event_header(event: str):
     event_name = sb.get_event(event=event)["name"]
     return event_name
+
+def get_match_video(match: str):
+    try:
+        return "https://www.youtu.be/" + match["video"]
+    except KeyError:
+        return ""
