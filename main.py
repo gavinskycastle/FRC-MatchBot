@@ -5,6 +5,7 @@ from discord.ext import commands
 from statbotics import Statbotics
 from os import environ
 from utils import *
+from tba import *
 
 # Setting channel ids
 BOT_TESTING_CHANNEL_ID = 1031012980692889615
@@ -40,6 +41,18 @@ async def on_ready():
 @bot.tree.command(name="ping")
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("Pong!")
+
+@bot.tree.command(name="teaminfo")
+@app_commands.describe(team = "Display basic information about a team")
+async def team_info(interaction: discord.Interaction, team: int):
+    team_object = get_team_object(team)
+    tba_link = "https://www.thebluealliance.com/team/" + str(team)
+    embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
+    embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
+    embed.add_field(name="Sponsors", value=team_object["name"], inline=False)
+    embed.add_field(name="Location", value=get_team_location(team_object), inline=True)
+    embed.add_field(name="Rookie Year", value=str(team_object["rookie_year"]), inline=True)
+    await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="nextmatch")
 @app_commands.describe(type = "Displays the next match the team will play in or the next match in the event", id = "The team/event number or id")
