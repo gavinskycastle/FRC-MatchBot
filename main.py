@@ -43,8 +43,8 @@ async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("Pong!")
 
 # TODO: Add icon using team_media() and converting the base64 text to an image to set as the thumbnail of the embed
-@bot.tree.command(name="teaminfo")
-@app_commands.describe(team = "Display basic information about a team")
+@bot.tree.command(name="teaminfo", description="Display basic information about a team")
+@app_commands.describe(team = "The team number or id")
 async def team_info(interaction: discord.Interaction, team: int):
     team_object = get_team_object(team)
     tba_link = "https://www.thebluealliance.com/team/" + str(team)
@@ -61,8 +61,8 @@ async def team_info(interaction: discord.Interaction, team: int):
     
     await interaction.response.send_message(embed=embed, view=view)
 
-@bot.tree.command(name="nextmatch")
-@app_commands.describe(type = "Displays the next match the team will play in or the next match in the event", id = "The team/event number or id")
+@bot.tree.command(name="nextmatch", description="Displays the next match the team will play in or the next match in the event")
+@app_commands.describe(type = "Either 'team' or 'event'", id = "The team/event number or id")
 async def next_match(interaction: discord.Interaction, type: str, id: str):
     response = "`Sending...`"
     matches = get_team_or_event_matches(type, id, year)
@@ -81,8 +81,8 @@ async def next_match(interaction: discord.Interaction, type: str, id: str):
         await bot.get_channel(CHANNEL_ID).send(header)
         await bot.get_channel(CHANNEL_ID).send(code_block(print_out[0]))
 
-@bot.tree.command(name="recentmatch")
-@app_commands.describe(type = "Displays the last played match for the team or in the event, as well as the match video if posted", id = "The team/event number or id")
+@bot.tree.command(name="recentmatch", description="Displays the last played match for the team or in the event, as well as the match video if posted")
+@app_commands.describe(type = "Either 'team' or 'event'", id = "The team/event number or id")
 async def recent_match(interaction: discord.Interaction, type: str, id: str):
     response = "`Sending...`"
     matches = get_team_or_event_matches(type, id, year)
@@ -102,8 +102,8 @@ async def recent_match(interaction: discord.Interaction, type: str, id: str):
         await bot.get_channel(CHANNEL_ID).send(code_block(print_out[0]))
         await bot.get_channel(CHANNEL_ID).send(get_match_video(get_most_recent_match(matches)))
 
-@bot.tree.command(name="allmatches")
-@app_commands.describe(type = "Displays all matches played by a team or in an event", id = "The team/event number or id")
+@bot.tree.command(name="allmatches", description="Displays all matches played by a team or in an event")
+@app_commands.describe(type = "Either 'team' or 'event'", id = "The team/event number or id")
 async def all_matches(interaction: discord.Interaction, type: str, id: str):
     response = "`Sending...`"
     matches = get_team_or_event_matches(type, id, year)
