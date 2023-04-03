@@ -1,5 +1,5 @@
 '''
-/teaminfo <team>: Display basic information about a team
+COMPLETED /teaminfo <team>: Display basic information about a team
 /teamstats <team>: Display ranking of a team and other skill-based stats for this season
 
 /eventinfo <event>: Display basic information about an event
@@ -13,11 +13,6 @@ COMPLETED /allmatches <team or event>: Displays all matches played by a team or 
 /sub <team or event>: Will automatically display the next match for a team or event 15 minutes before the scheduled match time until /unsub is called
 /unsub <team or event>: Reverses the effect of the command /sub
 '''
-
-# @bot.tree.command(name="teaminfo")
-# @app_commands.describe(team = "Display basic information about a team")
-# async def team_info(interaction: discord.Interaction, team: int):
-#     await interaction.response.send_message("Testing")
 
 # @bot.tree.command(name="teamstats")
 # @app_commands.describe(team = "Display ranking of a team and other skill-based stats for this season")

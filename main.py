@@ -42,17 +42,24 @@ async def on_ready():
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("Pong!")
 
+# TODO: Add icon using team_media() and converting the base64 text to an image to set as the thumbnail of the embed
 @bot.tree.command(name="teaminfo")
 @app_commands.describe(team = "Display basic information about a team")
 async def team_info(interaction: discord.Interaction, team: int):
     team_object = get_team_object(team)
     tba_link = "https://www.thebluealliance.com/team/" + str(team)
+    
     embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
     embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
     embed.add_field(name="Sponsors", value=team_object["name"], inline=False)
     embed.add_field(name="Location", value=get_team_location(team_object), inline=True)
     embed.add_field(name="Rookie Year", value=str(team_object["rookie_year"]), inline=True)
-    await interaction.response.send_message(embed=embed)
+    
+    view = discord.ui.View(timeout=None)
+    for social in get_team_socials(team_object).items():
+        view.add_item(discord.ui.Button(label=social[0], style=discord.ButtonStyle.link, url=social[1]))
+    
+    await interaction.response.send_message(embed=embed, view=view)
 
 @bot.tree.command(name="nextmatch")
 @app_commands.describe(type = "Displays the next match the team will play in or the next match in the event", id = "The team/event number or id")
