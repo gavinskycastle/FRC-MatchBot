@@ -75,7 +75,7 @@ async def team_stats(interaction: discord.Interaction, team: int):
     team_object = get_team_object(team)
     tba_link = "https://www.statbotics.io/team/" + str(team)
     
-    embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
+    embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.red())
     embed.set_author(name="Statbotics", url="https://www.statbotics.io")
     
     stats_dict = sb.get_team_year(team=team, year=year)
@@ -84,8 +84,18 @@ async def team_stats(interaction: discord.Interaction, team: int):
     embed.add_field(name="Losses", value=str(stats_dict["losses"]), inline=True)
     embed.add_field(name="Ties", value=str(stats_dict["ties"]), inline=True)
 
-    embed.add_field(name="Global Rank", value=str(stats_dict["total_epa_rank"]) + " out of " + str(stats_dict["total_team_count"]), inline=False)
-    embed.add_field(name=stats_dict["country"] + " Rank", value=str(stats_dict["country_epa_rank"]) + " out of " + str(stats_dict["country_team_count"]), inline=True)
+    embed.add_field(name="", value="", inline=False)
+    
+    embed.add_field(name="Auto EPA", value=str(round(stats_dict["auto_epa_end"], 1)), inline=True)
+    embed.add_field(name="Teleop EPA", value=str(round(stats_dict["teleop_epa_end"], 1)), inline=True)
+    embed.add_field(name="Endgame EPA", value=str(round(stats_dict["endgame_epa_end"], 1)), inline=True)
+    embed.add_field(name="Total EPA", value=str(round(stats_dict["epa_end"], 1)), inline=True)
+    
+    embed.add_field(name="", value="", inline=False)
+    
+    embed.add_field(name="Global Rank", value=str(stats_dict["total_epa_rank"]) + " out of " + str(stats_dict["total_team_count"]), inline=True)
+    if stats_dict["country"] != None:
+        embed.add_field(name=stats_dict["country"] + " Rank", value=str(stats_dict["country_epa_rank"]) + " out of " + str(stats_dict["country_team_count"]), inline=True)
     if stats_dict["state"] != None:
         embed.add_field(name=stats_dict["state"] + " Rank", value=str(stats_dict["state_epa_rank"]) + " out of " + str(stats_dict["state_team_count"]), inline=True)
     

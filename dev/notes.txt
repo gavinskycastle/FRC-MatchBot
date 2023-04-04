@@ -14,11 +14,6 @@ COMPLETED /allmatches <team or event>: Displays all matches played by a team or 
 /unsub <team or event>: Reverses the effect of the command /sub
 '''
 
-# @bot.tree.command(name="teamstats")
-# @app_commands.describe(team = "Display ranking of a team and other skill-based stats for this season")
-# async def team_stats(interaction: discord.Interaction, team: int):
-#     await interaction.response.send_message("Testing")
-
 # @bot.tree.command(name="eventinfo")
 # @app_commands.describe(event = "Display basic information about an event")
 # async def event_info(interaction: discord.Interaction, event: str):
