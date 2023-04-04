@@ -1,6 +1,6 @@
 '''
 COMPLETED /teaminfo <team>: Display basic information about a team
-/teamstats <team>: Display ranking of a team and other skill-based stats for this season
+COMPLETED /teamstats <team>: Display ranking of a team and other skill-based stats for this season
 
 /eventinfo <event>: Display basic information about an event
 /eventstats <event>: Display qualification rankings and alliances

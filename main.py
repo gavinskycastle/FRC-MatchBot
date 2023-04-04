@@ -68,14 +68,26 @@ async def team_info(interaction: discord.Interaction, team: int):
     except:
         await interaction.response.send_message(file=avatar_file, embed=embed)
 
+# TODO: Add EPAs to team stats
 @bot.tree.command(name="teamstats", description="Display ranking of a team and other skill-based stats for this season")
 @app_commands.describe(team = "The team number or id")
 async def team_stats(interaction: discord.Interaction, team: int):
     team_object = get_team_object(team)
-    tba_link = "https://www.thebluealliance.com/team/" + str(team)
+    tba_link = "https://www.statbotics.io/team/" + str(team)
     
     embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
-    embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
+    embed.set_author(name="Statbotics", url="https://www.statbotics.io")
+    
+    stats_dict = sb.get_team_year(team=team, year=year)
+    
+    embed.add_field(name="Wins", value=str(stats_dict["wins"]), inline=True)
+    embed.add_field(name="Losses", value=str(stats_dict["losses"]), inline=True)
+    embed.add_field(name="Ties", value=str(stats_dict["ties"]), inline=True)
+
+    embed.add_field(name="Global Rank", value=str(stats_dict["total_epa_rank"]) + " out of " + str(stats_dict["total_team_count"]), inline=False)
+    embed.add_field(name=stats_dict["country"] + " Rank", value=str(stats_dict["country_epa_rank"]) + " out of " + str(stats_dict["country_team_count"]), inline=True)
+    if stats_dict["state"] != None:
+        embed.add_field(name=stats_dict["state"] + " Rank", value=str(stats_dict["state_epa_rank"]) + " out of " + str(stats_dict["state_team_count"]), inline=True)
     
     save_team_avatar(team_object, year)
     avatar_file = discord.File(AVATAR_TEMP_PATH, filename=AVATAR_TEMP_NAME)
