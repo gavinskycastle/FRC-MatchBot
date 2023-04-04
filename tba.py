@@ -1,7 +1,10 @@
 import tbapy
-from os import environ
+import base64
+import os
 
-TBA_KEY = environ["TBA_READ_KEY"]
+TBA_KEY = os.environ["TBA_READ_KEY"]
+AVATAR_TEMP_NAME = "avatar.png"
+AVATAR_TEMP_PATH = "temp/" + AVATAR_TEMP_NAME
 
 tba = tbapy.TBA(TBA_KEY)
 
@@ -14,6 +17,17 @@ def get_team_name(team: tba.team):
 
 def get_team_location(team: tba.team):
     return team["city"] + ", " + team["state_prov"] + ", " + team["country"]
+
+def save_team_avatar(team: tba.team, year: int):
+    team_media = tba.team_media(team=team["key"], year=year)
+    team_avatar_string = ""
+    if team_media != []:
+        for media in team_media:
+            if media["type"] == "avatar":
+                team_avatar_string = media["details"]["base64Image"]
+    image_data = base64.b64decode(team_avatar_string)
+    with open(AVATAR_TEMP_PATH, 'wb') as f:
+        f.write(image_data)
 
 def get_team_socials(team: tba.team):
     team_socials = {"Website": team["website"]}
