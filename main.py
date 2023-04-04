@@ -22,7 +22,9 @@ year = int(datetime.date.today().strftime("%Y"))
 sb = Statbotics()
 
 # TODO: Determine required intents
-intents = discord.Intents.all()
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
 
 # Initialize our bot
 bot = commands.Bot(command_prefix='!', intents=intents)
