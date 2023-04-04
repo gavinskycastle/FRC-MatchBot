@@ -38,9 +38,9 @@ async def on_ready():
         print(e)
 
 # Basic ping command
-@bot.tree.command(name="ping")
-async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!")
+# @bot.tree.command(name="ping")
+# async def ping(interaction: discord.Interaction):
+#     await interaction.response.send_message("Pong!")
 
 @bot.tree.command(name="teaminfo", description="Display basic information about a team")
 @app_commands.describe(team = "The team number or id")
@@ -51,10 +51,6 @@ async def team_info(interaction: discord.Interaction, team: int):
     embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
     embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
     
-    save_team_avatar(team_object, year)
-    avatar_file = discord.File(AVATAR_TEMP_PATH, filename=AVATAR_TEMP_NAME)
-    embed.set_thumbnail(url="attachment://"+AVATAR_TEMP_NAME)
-    
     embed.add_field(name="Sponsors", value=team_object["name"], inline=False)
     embed.add_field(name="Location", value=get_team_location(team_object), inline=True)
     embed.add_field(name="Rookie Year", value=str(team_object["rookie_year"]), inline=True)
@@ -63,7 +59,29 @@ async def team_info(interaction: discord.Interaction, team: int):
     for social in get_team_socials(team_object).items():
         view.add_item(discord.ui.Button(label=social[0], style=discord.ButtonStyle.link, url=social[1]))
     
-    await interaction.response.send_message(file=avatar_file, embed=embed, view=view)
+    save_team_avatar(team_object, year)
+    avatar_file = discord.File(AVATAR_TEMP_PATH, filename=AVATAR_TEMP_NAME)
+    embed.set_thumbnail(url="attachment://"+AVATAR_TEMP_NAME)
+    
+    try:
+        await interaction.response.send_message(file=avatar_file, embed=embed, view=view)
+    except:
+        await interaction.response.send_message(file=avatar_file, embed=embed)
+
+@bot.tree.command(name="teamstats", description="Display ranking of a team and other skill-based stats for this season")
+@app_commands.describe(team = "The team number or id")
+async def team_stats(interaction: discord.Interaction, team: int):
+    team_object = get_team_object(team)
+    tba_link = "https://www.thebluealliance.com/team/" + str(team)
+    
+    embed = discord.Embed(title=get_team_name(team_object), url=tba_link, description="", color=discord.Color.blue())
+    embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
+    
+    save_team_avatar(team_object, year)
+    avatar_file = discord.File(AVATAR_TEMP_PATH, filename=AVATAR_TEMP_NAME)
+    embed.set_thumbnail(url="attachment://"+AVATAR_TEMP_NAME)
+    
+    await interaction.response.send_message(file=avatar_file, embed=embed)
 
 @bot.tree.command(name="nextmatch", description="Displays the next match the team will play in or the next match in the event")
 @app_commands.describe(type = "Either 'team' or 'event'", id = "The team/event number or id")
