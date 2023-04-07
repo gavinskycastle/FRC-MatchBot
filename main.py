@@ -1,8 +1,9 @@
 import discord
-import datetime
 from discord import app_commands
 from discord.ext import commands
 from statbotics import Statbotics
+from datetime import datetime
+from random import shuffle
 from os import environ
 from utils import *
 from tba import *
@@ -16,7 +17,7 @@ CHANNEL_ID = BOT_TESTING_CHANNEL_ID
 TOKEN = environ['MATCH_BOT_DISCORD_TOKEN']
 
 # Getting current year. By default, only matches from the current season are listed
-year = int(datetime.date.today().strftime("%Y"))
+year = int(datetime.today().strftime("%Y"))
 
 # Initalize Statbotics
 sb = Statbotics()
@@ -38,11 +39,6 @@ async def on_ready():
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
-
-# Basic ping command
-# @bot.tree.command(name="ping")
-# async def ping(interaction: discord.Interaction):
-#     await interaction.response.send_message("Pong!")
 
 @bot.tree.command(name="teaminfo", description="Display basic information about a team")
 @app_commands.describe(team = "The team number or id")
@@ -70,7 +66,6 @@ async def team_info(interaction: discord.Interaction, team: int):
     except:
         await interaction.response.send_message(file=avatar_file, embed=embed)
 
-# TODO: Add EPAs to team stats
 @bot.tree.command(name="teamstats", description="Display ranking of a team and other skill-based stats for this season")
 @app_commands.describe(team = "The team number or id")
 async def team_stats(interaction: discord.Interaction, team: int):
@@ -106,6 +101,47 @@ async def team_stats(interaction: discord.Interaction, team: int):
     embed.set_thumbnail(url="attachment://"+AVATAR_TEMP_NAME)
     
     await interaction.response.send_message(file=avatar_file, embed=embed)
+
+@bot.tree.command(name="eventinfo", description="Display basic information about an event")
+@app_commands.describe(event = "The event number or id")
+async def event_info(interaction: discord.Interaction, event: str):
+    event_object = tba.event(event)
+    tba_link = "https://www.thebluealliance.com/event/" + event
+    
+    year = event_object["year"]
+    date_string = date_range_string(event_object["start_date"], event_object["end_date"])
+    location_string = "📍 "+event_object["address"]
+    try:
+        week = str(int(event_object["week"])+1)
+        full_string = f"🗓️ {date_string}, {year} (Week {week})\n{location_string}"
+    except TypeError:
+        full_string = f"🗓️ {date_string}, {year}\n{location_string}"
+    
+    embed = discord.Embed(title=event_object["name"], url=tba_link, description=full_string, color=discord.Color.blue())
+    embed.set_author(name="The Blue Alliance", url="https://www.thebluealliance.com", icon_url="https://raw.githubusercontent.com/the-blue-alliance/the-blue-alliance-logo/main/ios/tba-icon-Artwork.png")
+    
+    all_team_numbers = [team["team_number"] for team in tba.event_teams(event)]
+    shuffle(all_team_numbers)
+    all_teams_string = ""
+    i = 0
+    for team in all_team_numbers:
+        if i != 0:
+            all_teams_string += ", "
+        all_teams_string += str(team)
+        if i > 50:
+            all_teams_string += f" and {len(all_team_numbers)-i} more"
+            break
+        i += 1
+    
+    embed.add_field(name="Teams", value=all_teams_string, inline=False)
+    #embed.add_field(name="Status", value=str(team_object["rookie_year"]), inline=True)
+    
+    view = discord.ui.View(timeout=None)
+    
+    try:
+        await interaction.response.send_message(embed=embed, view=view)
+    except:
+        await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="nextmatch", description="Displays the next match the team will play in or the next match in the event")
 @app_commands.describe(type = "Either 'team' or 'event'", id = "The team/event number or id")
