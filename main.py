@@ -137,6 +137,8 @@ async def event_info(interaction: discord.Interaction, event: str):
     #embed.add_field(name="Status", value=str(team_object["rookie_year"]), inline=True)
     
     view = discord.ui.View(timeout=None)
+    for webcast in get_event_webcasts(event_object).items():
+        view.add_item(discord.ui.Button(label=webcast[0], style=discord.ButtonStyle.link, url=webcast[1]))
     
     try:
         await interaction.response.send_message(embed=embed, view=view)

@@ -39,3 +39,22 @@ def get_team_socials(team: tba.team):
         social_dict = {social_name: social_link}
         team_socials.update(social_dict)
     return team_socials
+
+def get_event_webcasts(event: tba.event):
+    webcasts = {}
+
+    gameday_name = f"Watch on Gameday"
+    gameday_link = "https://thebluealliance.com/gameday/" + event["key"]
+    gameday_dict = {gameday_name: gameday_link}
+    webcasts.update(gameday_dict)
+
+    i = 0
+    for webcast in event["webcasts"]:
+        i += 1
+        if webcast["type"] == "twitch":
+            webcast_name = f"Watch on Twitch ({i})"
+            webcast_link = "https://www.twitch.tv/" + webcast["channel"]
+            webcast_dict = {webcast_name: webcast_link}
+            webcasts.update(webcast_dict)
+    print(webcasts)
+    return webcasts
