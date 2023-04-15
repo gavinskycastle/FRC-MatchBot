@@ -2,7 +2,7 @@
 COMPLETED /teaminfo <team>: Display basic information about a team
 COMPLETED /teamstats <team>: Display ranking of a team and other skill-based stats for this season
 
-/eventinfo <event>: Display basic information about an event
+COMPLETED /eventinfo <event>: Display basic information about an event
 /eventstats <event>: Display qualification rankings and alliances
 
 COMPLETED /nextmatch <team or event>: Displays the next match the team will play in or the next match in the event
