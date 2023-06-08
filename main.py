@@ -105,6 +105,24 @@ async def team_stats(interaction: discord.Interaction, team: int):
 @bot.tree.command(name="eventinfo", description="Display basic information about an event")
 @app_commands.describe(event = "The event number or id")
 async def event_info(interaction: discord.Interaction, event: str):
+    if event == "archimedes":
+      event = "2023arc"
+    elif event == "curie":
+      event = "2023cur"
+    elif event == "daly":
+      event = "2023dal"
+    elif event == "galileo":
+      event = "2023gal"
+    elif event == "hopper":
+      event = "2023hop"
+    elif event == "johnson":
+      event = "2023joh"
+    elif event == "milstein":
+      event = "2023mil"
+    elif event == "newton":
+      event = "2023new"
+    elif event == "einstein":
+      event = "2023cmptx"
     event_object = tba.event(event)
     tba_link = "https://www.thebluealliance.com/event/" + event
     
@@ -128,7 +146,7 @@ async def event_info(interaction: discord.Interaction, event: str):
         if i != 0:
             all_teams_string += ", "
         all_teams_string += str(team)
-        if i > 50:
+        if i > 100:
             all_teams_string += f" and {len(all_team_numbers)-i} more"
             break
         i += 1

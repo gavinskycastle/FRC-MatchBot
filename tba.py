@@ -43,7 +43,7 @@ def get_team_socials(team: tba.team):
 def get_event_webcasts(event: tba.event):
     webcasts = {}
 
-    gameday_name = f"Watch on Gameday"
+    gameday_name = "Watch on Gameday"
     gameday_link = "https://thebluealliance.com/gameday/" + event["key"]
     gameday_dict = {gameday_name: gameday_link}
     webcasts.update(gameday_dict)
