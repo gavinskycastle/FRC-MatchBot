@@ -48,6 +48,8 @@ Currently, FRC-MatchBot supports the following commands:
 
 `/teamstats <team>`: Display ranking of a team and other skill-based stats for this season
 
+`/eventinfo <id>`: Display basic information about an event as well as attending teams
+
 `/nextmatch <team or event> <id>`: Displays the next match the team will play in or the next match in the event
 
 `/recentmatch <team or event> <id>`: Displays the last played match for the team or in the event, as well as the match video if posted
